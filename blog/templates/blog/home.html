@@ -21,7 +21,7 @@
         {% for post in posts %}
         <div class="col-md-6 col-lg-4 ftco-animate">
           <div class="blog-entry">
-            <a href="blog-single.html" class="block-20 d-flex align-items-end" style="background-image: url({{post.post_image.url}})">
+            <a href="{% url 'blog:blogdetail' post.slug %}" class="block-20 d-flex align-items-end" style="background-image: url({{post.post_image.url}})">
               <div class="meta-date text-center p-2">
                 <span class="day">{{ post.date_posted|date:"d" }}</span>
                 <span class="mos">{{ post.date_posted|date:"N" }}</span>
