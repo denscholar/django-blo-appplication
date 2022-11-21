@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="d-flex justify-content-center align-items-center mt-5 p-4">
+    <div class="card border-dark shadow mt-5">
+        <div class="card-header fw-bolder">Logout</div>
+        <div class="card-body">
+          <p class="card-text fw-bolder">Are you sure you want to log out?</p>
+        </div>
+        <div class="d-flex gap-3 justify-content-between align-items-center p-3">
+            <button class="btn btn-outline-dark w-50"><a href="">No</a></button>
+            <button class="btn btn-outline-dark w-50"><a href="{% url 'users:logout' %}">Yes</a></button>
+        </div>
+      </div>
+    
+</div>
+  
+{% endblock content %}
