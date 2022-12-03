@@ -20,8 +20,8 @@ def register(request):
     else:
         form = UserRegisterForm()
     context = {
-        "form":form
-        }
+        "form": form
+    }
     return render(request, 'users/register.html', {"form": form})
 
 
@@ -40,15 +40,15 @@ def loginUser(request):
                     request, f'{user} sucessfully logged in')
                 return redirect('blog:blogPage')
             else:
-                messages.error(request, "Unsuccessful login. Invalid information.")
+                messages.error(
+                    request, "Unsuccessful login. Invalid information.")
         # else:
-        #     messages.error(request,"Invalid username or password.")    
+        #     messages.error(request,"Invalid username or password.")
     loginForm = AuthenticationForm()
-    return render(request, 'users/login.html', context={"loginForm":loginForm,} )
-
+    return render(request, 'users/login.html', context={"loginForm": loginForm, })
 
 
 def logoutUser(request):
     logout(request)
-    messages.info(request, "You have successfully logged out.") 
+    messages.info(request, "You have successfully logged out.")
     return redirect('pages:homepage')
