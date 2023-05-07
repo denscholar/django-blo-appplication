@@ -6,4 +6,11 @@ def project(request):
     context = {
         "projects":projects,
     }
-    return render(request, 'project_home.html', context)
+    return render(request, 'projects/projects_list.html', context)
+
+def project_detail(request, slug):
+    project = Project.objects.get(slug=slug)
+    context = {
+        "project":project,
+    }
+    return render(request, 'projects/project_details.html', context)

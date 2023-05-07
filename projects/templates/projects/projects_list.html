@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section id="blog" class="blog">
+    <div class="container">
+        <div class="section-header">
+            <h2>OUR PROJECTS</h2>
+        </div><!--/.section-header-->
+        <div class="blog-content">
+            <div class="row">
+                {% for project in projects  %}
+                <div class="col-sm-4">
+                    <div class="single-blog">
+                        <div class="single-blog-img">
+                            <a href="{% url 'projects:project_detail' project.slug %}"><img src="{{ project.page_image.url }}" alt="blog image"></a>
+                            <a href="{% url 'projects:project_detail' project.slug %}"><div class="single-blog-img-overlay"></div></a>
+                            
+                        </div>
+                        <div class="single-blog-txt">
+                            <h2><a class="heading-link" href="{% url 'projects:project_detail' project.slug %}">{{ project.title }}</a></h2>
+                            <p>
+                               {{ project.body|truncatewords:25}}
+                            </p>
+                        </div>
+                    </div>
+                    
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div><!--/.container-->
+    
+</section><!--/.blog-->
+
+    
+{% endblock content %}
+    

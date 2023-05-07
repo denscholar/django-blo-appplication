@@ -14,21 +14,33 @@ def post_blog(request):
 def postDetail(request, slug):
     post = Post.objects.get(slug=slug)
     user = User.objects.filter(username = 'denscholar').first
+    comments = post.comments.filter(active=True)
 
-    commentForm = CommentForm()
+    new_comment = None
+
     if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Comment will appear uipon approval')
+         comment_form = CommentForm(request.POST)
+         if comment_form.is_valid():
+
+            # Create Comment object but don't save to database yet
+            new_comment = comment_form.save(commit=False)
+
+            # Assign the current post to the comment
+            new_comment.post = post
+
+            # Save the comment to the database
+            new_comment.save()
+            messages.success(request, 'Comment will appear upon approval')
             return redirect('blog:blogdetail')
     else:
-        form = CommentForm()
+        comment_form = CommentForm()
         
     context = {
         'post': post,
         "user": user,
-        'form': form,
+        'comments': comments,
+        'new_comment': new_comment,
+        'comment_form': comment_form,
     }
 
     return render(request, 'blog/blog-detail.html', context)
