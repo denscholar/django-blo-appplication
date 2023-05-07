@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% load static %}
-{% load crispy_forms_tags %}
-
+{% load widget_tweaks %}
 {% block content %}
 <section class="hero-wrap hero-wrap-2" style="background-image: url('images/bg_1.jpg');">
     <div class="overlay"></div>
     <div class="container">
+      {% include 'partials/flash_messages.html' %}
       <div class="row no-gutters slider-text align-items-center justify-content-center">
         <div class="col-md-9 ftco-animate text-center">
           <h1 class="mb-2 bread">Blog Single</h1>
@@ -23,14 +23,6 @@
     <img src="{{ post.post_image.url }}" alt="blog image" class="img-fluid">
     </p>
     <p>{{ post.content|safe }}</p>
-    <div class="tag-widget post-tag-container mb-5 mt-5">
-      <div class="tagcloud">
-        <a href="#" class="tag-cloud-link">Life</a>
-        <a href="#" class="tag-cloud-link">Sport</a>
-        <a href="#" class="tag-cloud-link">Tech</a>
-        <a href="#" class="tag-cloud-link">Travel</a>
-      </div>
-    </div>
     
     <div class="about-author d-flex p-4 bg-light">
       <div class="bio mr-5">
@@ -44,99 +36,45 @@
 
 
     <div class="pt-5 mt-5">
-      <h3 class="mb-5 h4 font-weight-bold">6 Comments</h3>
+      
+      {% if not comments %}
+      <h3 class="mb-5 h4 font-weight-bold">No comment</h3>
+      {% else %}
+      <h3 class="mb-5 h4 font-weight-bold">{{ post.comments.all|length }} Comment(s) </h3>
+      {% for comment in comments  %}
+      
       <ul class="comment-list">
         <li class="comment">
-          <div class="vcard bio">
-            <img src="images/person_1.jpg" alt="Image placeholder">
-          </div>
+          
           <div class="comment-body">
-            <h3>John Doe</h3>
-            <div class="meta mb-2">June 27, 2019 at 2:21pm</div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-            <p><a href="#" class="reply">Reply</a></p>
-          </div>
-        </li>
-
-        <li class="comment">
-          <div class="vcard bio">
-            <img src="images/person_1.jpg" alt="Image placeholder">
-          </div>
-          <div class="comment-body">
-            <h3>John Doe</h3>
-            <div class="meta mb-2">June 27, 2019 at 2:21pm</div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-            <p><a href="#" class="reply">Reply</a></p>
-          </div>
-
-          <ul class="children">
-            <li class="comment">
-              <div class="vcard bio">
-                <img src="images/person_1.jpg" alt="Image placeholder">
-              </div>
-              <div class="comment-body">
-                <h3>John Doe</h3>
-                <div class="meta mb-2">June 27, 2019 at 2:21pm</div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                <p><a href="#" class="reply">Reply</a></p>
-              </div>
-
-
-              <ul class="children">
-                <li class="comment">
-                  <div class="vcard bio">
-                    <img src="images/person_1.jpg" alt="Image placeholder">
-                  </div>
-                  <div class="comment-body">
-                    <h3>John Doe</h3>
-                    <div class="meta mb-2">June 27, 2019 at 2:21pm</div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                    <p><a href="#" class="reply">Reply</a></p>
-                  </div>
-
-                    <ul class="children">
-                      <li class="comment">
-                        <div class="vcard bio">
-                          <img src="images/person_1.jpg" alt="Image placeholder">
-                        </div>
-                        <div class="comment-body">
-                          <h3>John Doe</h3>
-                          <div class="meta mb-2">June 27, 2019 at 2:21pm</div>
-                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                          <p><a href="#" class="reply">Reply</a></p>
-                        </div>
-                      </li>
-                    </ul>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-
-        <li class="comment">
-          <div class="vcard bio">
-            <img src="images/person_1.jpg" alt="Image placeholder">
-          </div>
-          <div class="comment-body">
-            <h3>John Doe</h3>
-            <div class="meta mb-2">June 27, 2019 at 2:21pm</div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
+            <h3>{{comment.name}}</h3>
+            <div class="meta mb-2">{{ comment.create_at }}</div>
+            <p>{{ comment.body | linebreaks }}</p>
             <p><a href="#" class="reply">Reply</a></p>
           </div>
         </li>
       </ul>
+      {% endfor %}        
+      {% endif %}
+        
+     
       <!-- END comment-list -->
       
       <div class="comment-form-wrap pt-5">
         <h3 class="mb-5 h4 font-weight-bold">Leave a comment</h3>
-        <form action="#" class="p-5 bg-light" method="POST">
-          <!-- <div class="form-group">
-            <label for="name">Name *</label>
-            <input type="text" class="form-control" id="name">
-          </div> -->
+        <form action="" class="p-5 bg-light" method="POST">
           {% csrf_token %}
-          <div class="form-group">
-              {{form|crispy}}
+          <div class="mb-3 form-group">
+            {% render_field comment_form.name class="form-control" placeholder='Your name' %}
+            <div class="invalid-feedback">{{ comment_form.errors.name }}</div>
+          </div>
+          <div class="mb-3 form-group">
+            {% render_field comment_form.email class="form-control" placeholder='Your email' %}
+            <div class="invalid-feedback">{{ comment_form.email.errors }}</div>
+          </div>
+          <div class="mb-3 form-group">
+            {% render_field comment_form.body class="form-control" placeholder='Your comment' %}
+            <div class="invalid-feedback">{{ comment_form.body.errors }}</div>
           </div>
           <div class="form-group">
             <input type="submit" value="Post Comment" class="btn py-3 px-4 btn-primary">
@@ -202,19 +140,6 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="sidebar-box ftco-animate">
-      <h3>Tag Cloud</h3>
-      <ul class="tagcloud m-0 p-0">
-        <a href="#" class="tag-cloud-link">School</a>
-        <a href="#" class="tag-cloud-link">Kids</a>
-        <a href="#" class="tag-cloud-link">Nursery</a>
-        <a href="#" class="tag-cloud-link">Daycare</a>
-        <a href="#" class="tag-cloud-link">Care</a>
-        <a href="#" class="tag-cloud-link">Kindergarten</a>
-        <a href="#" class="tag-cloud-link">Teacher</a>
-      </ul>
     </div>
 
     <div class="sidebar-box ftco-animate">

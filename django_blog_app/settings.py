@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     "django_browser_reload",
     'django_summernote',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
